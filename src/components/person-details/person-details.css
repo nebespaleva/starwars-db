@@ -1,0 +1,22 @@
+.person-details {
+    width: 575px;
+    margin: 0 auto; 
+    margin-top: 25px;
+    padding: 20px 0;
+    border: none;
+    border-radius: 20px;
+    background-color: #696969;
+    box-shadow: 0 0 5px #696969;;
+}
+
+.person-img {
+    width: 230px;
+    border-radius: 20px;
+    margin-right: 25px;
+    box-shadow: 0 0 12px black;
+}
+
+.person-details-title {
+    font-size: 30px;
+    text-align: center;
+}
