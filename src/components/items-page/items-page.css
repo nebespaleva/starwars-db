@@ -1,0 +1,8 @@
+.person-page {
+    display: flex;
+    justify-content: space-around;
+    align-items:flex-start;
+    width: 1100px;
+    margin: 0 auto;
+    margin-top: 20px;
+}

@@ -1,7 +1,7 @@
 .person-details {
-    width: 575px;
+    width: 500px;
     margin: 0 auto; 
-    margin-top: 25px;
+    margin-top: 35px;
     padding: 20px 0;
     border: none;
     border-radius: 20px;
@@ -14,6 +14,13 @@
     border-radius: 20px;
     margin-right: 25px;
     box-shadow: 0 0 12px black;
+}
+
+.person-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .person-details-title {

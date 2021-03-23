@@ -1,23 +1,42 @@
 import React, { Component } from 'react';
 import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner';
+import PlanetView from './planet-view';
+import ErrorMessage from '../error-indicator';
 import './random-planet.css';
 
 export default class RandomPlanet extends Component {
 
     swapiService = new SwapiService();
 
-    constructor() {
-        super();
-        this.updatePlanet();
+    state = {
+        planet: {},
+        loading: true,
+        error: false
     }
 
-    state = {
-        planet: {}
+    componentDidMount() {
+        this.updatePlanet();
+        this.interval = setInterval(this.updatePlanet, 5000)
+    }
+
+    componentWillUnmount() {
+        console.log('unmounting')
+        clearInterval(this.interval);
     }
 
     onPlanetLoaded = (planet) => {
-        this.setState({planet})
+        this.setState({
+            planet,
+            loading: false
+        })
+    }
+
+    onError = (err) => {
+        this.setState({
+            error: true,
+            loading: false
+        })
     }
 
     updatePlanet = () => {
@@ -26,28 +45,23 @@ export default class RandomPlanet extends Component {
 
         this.swapiService.getPlanet(id)
         .then(this.onPlanetLoaded)
+        .catch(this.onError);
     }
 
     render() {
 
-        const {planet: {id, name, population, rotationPeriod, diametr}} = this.state;
+        const {loading, planet, error} = this.state;
+
+        const showData = !(loading || error);
+        const errorMessage = error ? <ErrorMessage/> : null;
+        const spinner = loading ? <Spinner/> : null;
+        const content = showData ? <PlanetView planet={planet}/> : null;
 
         return(
             <div className='d-flex justify-content-center rnd-planet'>
-                <div>
-                    <img src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`} 
-                        alt='planet'
-                        className='planet-img'
-                    />
-                </div>
-                <div>
-                    <h2 className='rnd-planet-title'>{name}</h2>
-                    <ul className='list-group'>
-                        <li className='list-group-item'>Population: {population}</li>
-                        <li className='list-group-item'>Rotation period:  {rotationPeriod} hours</li>
-                        <li className='list-group-item'>Diameter: {diametr} km</li>
-                    </ul>
-                </div>
+                {errorMessage}
+                {spinner}
+                {content}
             </div>
         )
     }

@@ -1,0 +1,19 @@
+.error-img {
+    width:110px;
+    display: block;
+    margin: 0 auto;
+}
+
+.error-title {
+    text-align: center;
+    font-size: 18px;
+    color:darkorange;
+    text-shadow: 0px 0px 2px #000;
+}
+
+.error-subtitle {
+    text-align: center;
+    font-size: 16px;
+    color:darkorange;
+    text-shadow: 0px 0px 2px #000;
+}
