@@ -1,5 +1,5 @@
 .links {
-    width: 350px;
+    width: 450px;
     margin-right: 10px;
 }   
 
@@ -11,15 +11,20 @@
     text-shadow: 0 -3px 7px wheat;
     font-weight: bold;
     letter-spacing: 1.8px;
+    color: white;
 }
 
 .header-title:hover {
     text-shadow: 0 10px 15px wheat;
 }
 
-.links a {
+a:hover{
     text-decoration: none;
+}
+
+.links a {
     font-size: 20px;
+    text-decoration: none;
 }
 
 .links a:hover {

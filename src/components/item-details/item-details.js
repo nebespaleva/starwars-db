@@ -1,51 +1,60 @@
 import React, { Component } from 'react';
 import SwapiService from '../../services/swapi-service';
 import Spinner from '../spinner';
-import './person-details.css';
+import './item-details.css';
 
-export default class PersonDetails extends Component {
+const Record = ({itemInfo, field, label}) => {
+    return (
+        <li className='list-group-item'>{`${label} ${itemInfo[field]}`}</li>
+    )
+}
+
+export {Record};
+
+export default class ItemDetails extends Component {
 
     swapiService = new SwapiService();
 
     state = {
-        personInfo: null,
-        loading: null
+        itemInfo: null,
+        loading: null,
+        image: null
     }
 
     componentDidMount() {
-        this.renderPerson();
+        this.renderItem();
     }
 
     componentDidUpdate(prevProp) {
-        if (this.props.personId !== prevProp.personId) {
-            this.renderPerson();
+        if (this.props.itemId !== prevProp.itemId) {
+            this.renderItem();
         }
     }
 
 
-    renderPerson = () => {
+    renderItem = () => {
 
         this.setState({
             loading: true
         })
         
-        const {personId} = this.props;
+        const {itemId, getData, getImgUrl} = this.props;
 
-        this.swapiService
-            .getPerson(personId)
-            .then((personInfo) => {
-                this.setState({
-                    personInfo,
-                    loading: false
-                })
+        getData(itemId)
+        .then((itemInfo) => {
+            this.setState({
+                itemInfo,
+                loading: false,
+                image: getImgUrl(itemInfo)
             })
+        })
 
     }
 
     render() {
 
-        const {personInfo, loading} = this.state;
-        if (!personInfo) {
+        const {itemInfo, loading, image} = this.state;
+        if (!itemInfo) {
             return (
                 <span>Please, choose your character</span>
             )
@@ -55,17 +64,19 @@ export default class PersonDetails extends Component {
             return(
                 <React.Fragment>
                     <div>
-                        <img src={`https://starwars-visualguide.com/assets/img/characters/${personInfo.id}.jpg`} 
+                        <img src={image} 
                             alt='person'
                             className='person-img'
                         />
                     </div>
                     <div className='person-info'>
-                        <h2 className='person-details-title'>{personInfo.name}</h2>
+                        <h2 className='person-details-title'>{itemInfo.name}</h2>
                         <ul className='list-group'>
-                            <li className='list-group-item'>Gender: {personInfo.gender}</li>
-                            <li className='list-group-item'>Birth year: {personInfo.birthYear}</li>
-                            <li className='list-group-item'>Eye color: {personInfo.eyeColor}</li>
+                            {
+                                React.Children.map(this.props.children, (child) => {
+                                    return React.cloneElement(child, {itemInfo});
+                                })
+                            }
                         </ul>
                     </div>
                 </React.Fragment>
